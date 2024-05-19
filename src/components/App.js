@@ -1,45 +1,47 @@
 import Editor from "./Editor";
 import React, { useState, useEffect } from "react";
-import useLocalSrorage from "../hooks/useLocalSrorage";
+import useLocalStorage from "../hooks/useLocalSrorage";
+
 function App() {
-  const [html, setHtml] = useLocalSrorage('html', '')
-  const [css, setCss] = useLocalSrorage('css', '')
-  const [js, setJs] = useLocalSrorage('js', '')
+  const [html, setHtml] = useLocalStorage('html', '')
+  const [css, setCss] = useLocalStorage('css', '')
+  const [js, setJs] = useLocalStorage('js', '')
   const [srcDoc, setSrcDoc] = useState('')
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setSrcDoc(`
-      < html > 
-        <body>${html}</body> 
-        <style>${css}</style> 
-        <script>${js}</script>
-      </html >
-         `)
+        <html>
+          <body>${html}</body>
+          <style>${css}</style>
+          <script>${js}</script>
+        </html>
+      `)
     }, 250)
     return () => clearTimeout(timeout)
   }, [html, css, js])
 
-
-
   return (
     <>
-      <div className="pane top-panel">
+      <div className="pane top-pane">
         <Editor
           language="xml"
           displayName="HTML"
           value={html}
-          onChange={setHtml} />
+          onChange={setHtml}
+        />
         <Editor
           language="css"
           displayName="CSS"
           value={css}
-          onChange={setCss} />
+          onChange={setCss}
+        />
         <Editor
-          language="jacascript"
+          language="javascript"
           displayName="JS"
           value={js}
-          onChange={setJs} />
+          onChange={setJs}
+        />
       </div>
       <div className="pane">
         <iframe
@@ -53,5 +55,7 @@ function App() {
       </div>
     </>
   )
+
 }
+
 export default App;
